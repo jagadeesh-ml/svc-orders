@@ -1,18 +1,15 @@
-name: svc-orders-ci
-
+name: svc-users-ci
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+    branches: [ main ]
+    paths:
+      - '**'
 permissions:
   contents: read
   packages: write
-
 jobs:
-  build-test:
+  build:
     uses: jagadeesh-ml/platform/.github/workflows/reusable-ci.yml@main
     with:
       service_name: svc-orders
-      path_filter: "."
+      path_filter: .
