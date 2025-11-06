@@ -1,13 +1,14 @@
 name: svc-orders-ci
+
 on:
-  pull_request:
-    paths: [ "src/**", "Dockerfile", "package.json" ]
   push:
+    branches: [ "main" ]
+  pull_request:
     branches: [ "main" ]
 
 jobs:
   build-test:
-    uses: Jagadeesh-ml/platform/.github/workflows/reusable-ci.yml@main
+    uses: jagadeesh-ml/platform/.github/workflows/reusable-ci.yml@main
     with:
       service_name: svc-orders
       path_filter: "."

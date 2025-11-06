@@ -1,7 +1,11 @@
 name: promote-to-dev
+
 on:
   push:
     branches: [ "main" ]
+
+permissions:
+  contents: read
 
 jobs:
   bump:
@@ -14,7 +18,7 @@ jobs:
       - name: Checkout env repo
         uses: actions/checkout@v4
         with:
-          repository: Jagadeesh-ml/env
+          repository: jagadeesh-ml/env
           token: ${{ secrets.ENV_REPO_PAT }}
 
       - name: Install yq
@@ -32,7 +36,9 @@ jobs:
           git push origin HEAD
 
       - name: Open PR to env
+        env:
+          GH_TOKEN: ${{ secrets.ENV_REPO_PAT }}
         run: |
-          gh pr create --repo Jagadeesh-ml/env \
+          gh pr create --repo jagadeesh-ml/env \
             --title "orders → dev ${{ steps.meta.outputs.tag }}" \
             --body "Auto bump from svc-orders"
