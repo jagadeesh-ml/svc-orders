@@ -1,17 +1,19 @@
 import express from 'express';
+
 const app = express();
-
-app.get('/healthz', (_req, res) => {
-  res.json({ service: 'orders', status: 'running' });
-});
-
-app.get('/', (_req, res) => {
-  res.send('orders service');
-});
-
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`orders listening on ${PORT}`);
+const SERVICE = process.env.SERVICE_NAME || 'unknown';
+
+// Simple root for quick checks
+app.get('/', (_req, res) => {
+  res.status(200).send(`${SERVICE} service`);
 });
-// trigger multi-arch
-// retrigger
+
+// Consistent JSON health
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({ service: SERVICE, status: 'running' });
+});
+
+app.listen(PORT, () => {
+  console.log(`${SERVICE} listening on ${PORT}`);
+});
